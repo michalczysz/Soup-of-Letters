@@ -33,6 +33,7 @@ function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, stor
     }
 
     const handleDragStart = ev => {
+        ev.dataTransfer.setData('text','');
         let ctx = canvas.current.getContext("2d");
         ev.dataTransfer.setDragImage(new Image(), 0, 0);
         let _x = ev.pageX - can_ref.current.offsetLeft
