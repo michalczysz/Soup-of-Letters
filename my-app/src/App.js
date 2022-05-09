@@ -12,6 +12,7 @@ function App() {
   const canvas = useRef(null)
   const grid_ref = useRef(null)
   const [xy, setXY] = React.useState({ x: 0, y: 0, ctx: null })
+  const [prevXY, setPrevXY] = React.useState({ x: 0, y: 0 })
   const [storedLines, setStroredLines] = React.useState([])
   const [grid] = React.useState(Game(dim))
 
@@ -39,6 +40,8 @@ function App() {
                 grid_ref={grid_ref}
                 xy={xy}
                 setXY={setXY}
+                prevXY={prevXY}
+                setPrevXY={setPrevXY}
                 storedLines={storedLines}
                 setStroredLines={setStroredLines} />
             })}

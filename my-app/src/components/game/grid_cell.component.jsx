@@ -19,7 +19,7 @@ function redrawStoredLines(ctx, canvas, storedLines) {
     }
 }
 
-function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, storedLines, setStroredLines }) {
+function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, prevXY, setPrevXY, storedLines, setStroredLines }) {
     const canvas = can_ref
 
     React.useEffect(() => {
@@ -33,7 +33,7 @@ function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, stor
     }
 
     const handleDragStart = ev => {
-        ev.dataTransfer.setData('text','');
+        ev.dataTransfer.setData('text', 'test');
         let ctx = canvas.current.getContext("2d");
         ev.dataTransfer.setDragImage(new Image(), 0, 0);
         let _x = ev.pageX - can_ref.current.offsetLeft
@@ -44,66 +44,43 @@ function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, stor
             y: abs_to_gridXY(_y),
             ctx: ctx
         })
-
-        // xd_ctx = ctx
     }
-
-    // const handleDragEnter = ev => {
-    //     ev.preventDefault();
-    //     ev.stopPropagation();
-    //     // console.log(xy);
-
-    //     let _x = ev.pageX - can_ref.current.offsetLeft
-    //     let _y = ev.pageY - can_ref.current.offsetTop
-
-    //     // redrawStoredLines(canvas.current, storedLines);
-    //     // console.log(xy.ctx)
-
-    //     xy.ctx.clearRect(0, 0, canvas.current.width, canvas.current.height);
-
-    //     xy.ctx.beginPath();
-    //     xy.ctx.moveTo(xy.x, xy.y);
-    //     xy.ctx.lineTo(
-    //         Math.trunc(map_xy(_x, 0, grid_ref.current.offsetHeight, 0, dim)) * (grid_ref.current.offsetHeight / dim) + 21,
-    //         Math.trunc(map_xy(_y, 0, grid_ref.current.offsetHeight, 0, dim)) * (grid_ref.current.offsetHeight / dim) + 21);
-    //     xy.ctx.stroke();
-    // }
 
     const handleDrag = (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
 
-        
+        ev.dataTransfer.dropEffect = 'none';
 
         let _x = abs_to_gridXY(ev.pageX - can_ref.current.offsetLeft)
         let _y = abs_to_gridXY(ev.pageY - can_ref.current.offsetTop)
-        // console.log(_x + " : " + _y)
-        redrawStoredLines(xy.ctx, canvas.current, storedLines);
 
-        if (_x > 0 && _y > 0 && _x < grid_ref.current.offsetHeight && _y < grid_ref.current.offsetHeight) {
-            xy.ctx.beginPath();
-            xy.ctx.moveTo(xy.x, xy.y);
-            xy.ctx.lineTo(
-                abs_to_gridXY(_x),
-                abs_to_gridXY(_y));
-            xy.ctx.stroke();
+        if (prevXY.x !== _x || prevXY.y !== _y) {
+            setPrevXY({ x: _x, y: _y })
+            console.log(_x + " : " + _y)
+            redrawStoredLines(xy.ctx, canvas.current, storedLines);
+
+            if (_x > 0 && _y > 0 && _x < grid_ref.current.offsetHeight && _y < grid_ref.current.offsetHeight) {
+                xy.ctx.beginPath();
+                xy.ctx.moveTo(xy.x, xy.y);
+                xy.ctx.lineTo(
+                    abs_to_gridXY(_x),
+                    abs_to_gridXY(_y));
+                xy.ctx.stroke();
+            }
         }
     }
 
     const handleDragEnd = ev => {
-        let _x = abs_to_gridXY(ev.pageX - can_ref.current.offsetLeft)
-        let _y = abs_to_gridXY(ev.pageY - can_ref.current.offsetTop)
-
-        if (_x > 0 && _y > 0 && _x < grid_ref.current.offsetHeight && _y < grid_ref.current.offsetHeight) {
+        if (prevXY.x > 0 && prevXY.y > 0 && prevXY.x < grid_ref.current.offsetHeight && prevXY.y < grid_ref.current.offsetHeight) {
             let temp_storedLines = storedLines
             temp_storedLines.push({
                 x1: xy.x,
                 y1: xy.y,
-                x2: _x,
-                y2: _y
+                x2: prevXY.x,
+                y2: prevXY.y
             }
             )
-            // console.log(temp_storedLines)
             setStroredLines(temp_storedLines)
         }
         redrawStoredLines(xy.ctx, canvas.current, storedLines);
@@ -111,8 +88,7 @@ function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, stor
 
     return (<div draggable className="grid-item" id={'gridCell' + index}
         onDragStart={handleDragStart}
-        // onDragEnter={handleDragEnter}
-        onDrag={handleDrag}
+        onDragOver={handleDrag} //onDrag doesnt work in Firefox browser, in chrome there is no problems
         onDragEnd={handleDragEnd}>
         {letter}
     </div>)
