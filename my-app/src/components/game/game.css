@@ -1,0 +1,20 @@
+.grid-container {
+  justify-content: center; 
+  display: grid;
+  grid-template-columns: var(--grid);
+  z-index: 15;
+}
+
+.grid-item {
+  position:relative;
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  font-size: 20px;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  align-self: end;
+  user-select: none;
+  z-index: 15;
+}
