@@ -8,7 +8,6 @@ function map_xy(x, in_min, in_max, out_min, out_max) {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-
 function redrawStoredLines(ctx, canvas, storedLines) {
     // clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -24,7 +23,7 @@ function redrawStoredLines(ctx, canvas, storedLines) {
     }
 }
 
-function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, prevXY, setPrevXY, storedLines, setStroredLines, setDragend}) {
+function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, prevXY, setPrevXY, storedLines, setStroredLines, dragend, setDragend}) {
 
     /*
     useEffect hook fires only once after first render.
@@ -47,12 +46,14 @@ function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, prev
         let _x = ev.pageX - can_ref.current.offsetLeft   //calculating current XY position on canvas
         let _y = ev.pageY - can_ref.current.offsetTop
 
+        setDragend({first_cell: index})
+
         setXY({                     //putting new value to XY hook
             x: abs_to_gridXY(_x),   //XY canvas position to XY grid position
             y: abs_to_gridXY(_y),
             ctx: ctx
         })
-        setDragend(false)
+        setDragend({first_cell: index, status: false})
     }
 
     const handleDrag = (ev) => {
@@ -66,7 +67,6 @@ function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, prev
 
         if (prevXY.x !== _x || prevXY.y !== _y) {
             setPrevXY({ x: _x, y: _y })
-            // console.log(_x + " : " + _y)
             redrawStoredLines(xy.ctx, can_ref.current, storedLines);
 
             if (_x > 0 && _y > 0 && _x < grid_ref.current.offsetHeight && _y < grid_ref.current.offsetHeight) {
@@ -79,6 +79,8 @@ function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, prev
                 xy.ctx.stroke();
             }
         }
+        let firstcelltemp = dragend.first_cell
+        setDragend({first_cell: firstcelltemp, last_cell: index, status: false})
     }
 
     const handleDragEnd = ev => {
@@ -92,7 +94,8 @@ function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, prev
             }
             )
             setStroredLines(temp_storedLines)
-            setDragend(true)
+            let firstcelltemp = dragend.first_cell, lastcelltemp = dragend.last_cell
+            setDragend({first_cell: firstcelltemp, last_cell: lastcelltemp, status: true})
         }
         redrawStoredLines(xy.ctx, can_ref.current, storedLines);
     }

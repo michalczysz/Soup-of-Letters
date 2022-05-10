@@ -11,8 +11,8 @@ function App() {
   dim is temporary variable with diemension of letter grid
   it tells the rest of program to make 5x5 grid
   */
-  let dim = 5 
-  
+  let dim = 5
+
   /* Canvas is like area on which we can draw different shapes. 
   In this project we use it to draw line for selected letters
 
@@ -30,10 +30,15 @@ function App() {
   const [prevXY, setPrevXY] = React.useState({ x: 0, y: 0 })
   const [storedLines, setStroredLines] = React.useState([])
   const [grid] = React.useState(Game(dim)) //In Game() we generate grid
-  const [dragend, setDragend] = React.useState(false)
+  const [dragend, setDragend] = React.useState({first_cell: '', last_cell: '', status: false})
 
   React.useEffect(() => {
-    if(dragend === true ) console.log("test") //here will be function for detecting good word cross
+    if (dragend.status === true) {
+      grid[1].forEach(element => {
+        if(element[0] === dragend.first_cell && element[1] === dragend.last_cell) console.log(grid[1].indexOf(element))
+      });
+      setDragend({first_cell: '', last_cell: '', status: false})
+    } //here is the function that check if uswer found the rigth word and print its position in solution array
   });
 
   document.body.style = 'background: #FFF6A7;';
@@ -45,7 +50,7 @@ function App() {
         <div id="editor-section">
           <div className="grid-container" ref={grid_ref}>
             <SelectingBox ref={canvas} />
-            {grid.map(xd => {
+            {grid[0].map(xd => {
               return <GridCell
                 key={xd[0]}
                 index={xd[0]}
@@ -59,8 +64,9 @@ function App() {
                 prevXY={prevXY}
                 setPrevXY={setPrevXY}
                 storedLines={storedLines}
-                setStroredLines={setStroredLines} 
-                setDragend={setDragend}/>
+                setStroredLines={setStroredLines}
+                dragend={dragend}
+                setDragend={setDragend} />
             })}
           </div>
           <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} />

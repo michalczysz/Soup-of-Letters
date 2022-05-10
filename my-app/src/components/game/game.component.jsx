@@ -151,6 +151,7 @@ function check_freespace(word, grid, type, _cross) {
 }
 
 function word_put(grid) {
+    let solutions = []
     wordbook.forEach(element => {
         let free_space = check_freespace(element[0], grid, element[1], element[2])
         let free_space_rand = free_space.length === 1 ? 0 : rand_num(free_space.length - 1)
@@ -162,8 +163,9 @@ function word_put(grid) {
 
         let position = free_space[free_space_rand]
 
-
+        let solution = []
         for (let index = element[0].length - 1; index >= 0; index--) {
+            if(index === element[0].length - 1 || index === 0) solution.push([position[1]+position[0]*dim])
             let letter = (element[0])[index]
             grid[position[0]][position[1]] = letter
 
@@ -179,8 +181,9 @@ function word_put(grid) {
                     break
             }
         }
+        solutions.push([solution[1][0], solution[0][0]])
     });
-    return grid
+    return [grid, solutions]
 }
 
 function Game(_dim) {
@@ -188,7 +191,7 @@ function Game(_dim) {
     let gc = Grid_create(dim)
     document.documentElement.style.setProperty('--grid', gc[1])
 
-    let grid = word_put(gc[0])
+    let [grid, solutions] = word_put(gc[0])
 
     let lol = []
 
@@ -197,7 +200,7 @@ function Game(_dim) {
             lol.push([x + (y * dim), grid[y][x] === '*' ? alphabet[rand_num(alphabet.length - 1)] : grid[y][x], grid[y][x] === '*' ? true : false, y, x])
         }
     }
-    return lol
+    return [lol, solutions]
 }
 
 export default Game;
