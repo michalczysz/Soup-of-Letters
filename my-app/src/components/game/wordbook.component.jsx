@@ -1,7 +1,7 @@
 import React from 'react'
 import './wordbook.component.css'
 
-function WordBook({ can_ref }) {
+function WordBook({ can_ref, words }) {
     const ref = React.createRef(null)
 
     React.useEffect(() => {
@@ -9,10 +9,12 @@ function WordBook({ can_ref }) {
         document.documentElement.style.setProperty('--cv', can_ref.current.clientHeight + ref.current.clientWidth)
     })
 
+    // console.log(words)
+
     return (<div className="WordBook" ref={ref}>
-        <li><span>word 1</span></li>
-        <li><span>word 2</span></li>
-        <li><span>word 3</span></li>
+        {words.map(word => {
+            return <li key={word.word}><span>{word.word}</span></li>
+        })}
     </div>
     )
 }

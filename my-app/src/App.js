@@ -38,7 +38,8 @@ function App() {
   React.useEffect(() => {
     if (dragend.status === true) {
       grid[1].forEach(element => {
-        if (element[0] === dragend.first_cell && element[1] === dragend.last_cell) console.log(grid[1].indexOf(element))
+        if (element.first_cell === dragend.first_cell && element.last_cell === dragend.last_cell) 
+        console.log(grid[1].indexOf(element) + " : " + element.word)
       });
       setDragend({ first_cell: '', last_cell: '', status: false })
     } //here is the function that check if uswer found the rigth word and print its position in solution array
@@ -72,7 +73,7 @@ function App() {
                 setDragend={setDragend} />
             })}
           </div>
-          <WordBook can_ref={canvas}/>
+          <WordBook can_ref={canvas} words={grid[1]}/>
         </div>
         <div className='Button-container'>
             <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} />

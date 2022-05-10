@@ -181,7 +181,7 @@ function word_put(grid) {
                     break
             }
         }
-        solutions.push([solution[1][0], solution[0][0]])
+        solutions.push({first_cell: solution[1][0], last_cell: solution[0][0], word: element[0], status: false})
     });
     return [grid, solutions]
 }
