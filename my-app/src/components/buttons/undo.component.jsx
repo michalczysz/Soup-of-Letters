@@ -1,12 +1,14 @@
 import './undo.css'
 import { redrawStoredLines } from '../game/grid_cell.component'
 
-function UndoButton({can_ref, xy, storedLines, setStroredLines }) {
+function UndoButton({ can_ref, xy, storedLines, setStroredLines }) {
     const handleOnClick = () => {
-        let temp_storedlines = storedLines
-        temp_storedlines.pop()
-        setStroredLines(temp_storedlines)
-        redrawStoredLines(xy.ctx, can_ref.current, storedLines)
+        if (storedLines.length > 0) {
+            let temp_storedlines = storedLines
+            temp_storedlines.pop()
+            setStroredLines(temp_storedlines)
+            redrawStoredLines(xy.ctx, can_ref.current, storedLines)
+        }
     }
 
     return (

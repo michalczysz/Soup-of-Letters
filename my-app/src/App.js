@@ -7,6 +7,7 @@ import SelectingBox from './components/slectingbox/selectingbox.component';
 import UndoButton from './components/buttons/undo.component';
 import ResetButton from './components/buttons/reset.component';
 import SettingsButton from './components/buttons/settings.component';
+import WordBook from './components/game/wordbook.component';
 
 function App() {
   /* 
@@ -49,7 +50,7 @@ function App() {
     <div id="container" >
       <Header />
       <main className="main-content">
-        <div id="editor-section">
+        <div id="game-components">
           <div className="grid-container" ref={grid_ref}>
             <SelectingBox ref={canvas} />
             {grid[0].map(xd => {
@@ -71,12 +72,13 @@ function App() {
                 setDragend={setDragend} />
             })}
           </div>
-          <div className='Button-container'>
+          <WordBook can_ref={canvas}/>
+        </div>
+        <div className='Button-container'>
             <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} />
             <ResetButton />
             <SettingsButton />
           </div>
-        </div>
       </main>
     </div >
   );

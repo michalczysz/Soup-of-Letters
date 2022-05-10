@@ -1,15 +1,20 @@
 :root {
   --grid: auto auto auto;
+  --cv: 200px;
 }
 
-#editor-section{
+#game-components { 
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  /* align-items: center; */
   justify-content: center;
 }
 
-.button-container{
+.Button-container {
   display: flex;
   flex-direction: row;
+  /* margin: auto; */
+  position: relative;
+  align-items: center;
+  justify-content: center;
 }

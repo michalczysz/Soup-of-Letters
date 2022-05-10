@@ -1,0 +1,10 @@
+.WordBook {
+    margin-left: calc(var(--cv) * 1px + 10px);
+    position: absolute;
+    z-index: 1;
+}
+
+li span {
+    position: relative;
+    left: -10px;
+}

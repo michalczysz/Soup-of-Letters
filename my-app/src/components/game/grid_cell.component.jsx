@@ -31,6 +31,7 @@ function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, prev
     */
     React.useEffect(() => {
         let ctx = can_ref.current.getContext("2d");
+        document.documentElement.style.setProperty('--cv', grid_ref.current.offsetHeight)
         ctx.canvas.width = grid_ref.current.offsetHeight;
         ctx.canvas.height = grid_ref.current.offsetHeight;
     }, [can_ref, grid_ref]);
