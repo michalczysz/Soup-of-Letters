@@ -1,6 +1,6 @@
 import './game.css';
 
-let dim
+let dim //some old stuff, need to clean it
 let wordbook = [["crt", 1, false], ["rat", 2, false], ["bar", 3, true]]
 const alphabet = 'abcdefghijklmnoprstwyz'
 

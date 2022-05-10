@@ -5,7 +5,7 @@ const SelectingBox = React.forwardRef((props, ref) => {
     return (
          <canvas
         className="canvases"
-        ref={ref}
+        ref={ref} //setting the ref that was made former made in App.js
       ></canvas>       
     )
 })

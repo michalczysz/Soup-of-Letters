@@ -7,20 +7,36 @@ import SelectingBox from './components/slectingbox/selectingbox.component';
 import UndoButton from './components/buttons/undo.component';
 
 function App() {
-  let dim = 5
+  /* 
+  dim is temporary variable with diemension of letter grid
+  it tells the rest of program to make 5x5 grid
+  */
+  let dim = 5 
   
-  const canvas = useRef(null)
+  /* Canvas is like area on which we can draw different shapes. 
+  In this project we use it to draw line for selected letters
+
+  Next, we use React Hooks to store data between renders.
+  Render is like refreshing page when you update some value in DOM object.
+  On every Render of DOM object, function genereting that object run once again
+    an possibly might change state/value of object. for example, when we generate random number
+    on next render it will generate it again and change our orginal value
+  */
+
+  const canvas = useRef(null) //this is React hook, to send Canvas pointer(?) to another function
   const grid_ref = useRef(null)
-  const [xy, setXY] = React.useState({ x: 0, y: 0, ctx: null })
+
+  const [xy, setXY] = React.useState({ x: 0, y: 0, ctx: null }) //another hooks for handling different datas between renders
   const [prevXY, setPrevXY] = React.useState({ x: 0, y: 0 })
   const [storedLines, setStroredLines] = React.useState([])
-  const [grid] = React.useState(Game(dim))
+  const [grid] = React.useState(Game(dim)) //In Game() we generate grid
+  const [dragend, setDragend] = React.useState(false)
+
+  React.useEffect(() => {
+    if(dragend === true ) console.log("test") //here will be function for detecting good word cross
+  });
 
   document.body.style = 'background: #FFF6A7;';
-
-  // let grid = 
-
-  // console.log(grid)
 
   return (
     <div id="container" >
@@ -43,7 +59,8 @@ function App() {
                 prevXY={prevXY}
                 setPrevXY={setPrevXY}
                 storedLines={storedLines}
-                setStroredLines={setStroredLines} />
+                setStroredLines={setStroredLines} 
+                setDragend={setDragend}/>
             })}
           </div>
           <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} />
