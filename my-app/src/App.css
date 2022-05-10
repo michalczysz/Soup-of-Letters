@@ -1,13 +1,30 @@
 :root {
   --grid: auto auto auto;
-  --cv: 200px;
+  --cv: 0;
 }
 
-#game-components { 
+#game-components {
   display: flex;
   flex-direction: row;
   /* align-items: center; */
   justify-content: center;
+}
+
+.List {
+  display: flex;
+  margin-left: calc(var(--cv) * 1px + 210px);
+  position: absolute;
+  width: 200px;
+  z-index: 1;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.ListTitle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 
 .Button-container {

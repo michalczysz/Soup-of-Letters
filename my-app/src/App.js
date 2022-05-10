@@ -7,7 +7,7 @@ import SelectingBox from './components/slectingbox/selectingbox.component';
 import UndoButton from './components/buttons/undo.component';
 import ResetButton from './components/buttons/reset.component';
 import SettingsButton from './components/buttons/settings.component';
-import WordBook from './components/game/wordbook.component';
+import WordBook from './components/wordlist/wordbook.component';
 
 function App() {
   /* 
@@ -32,15 +32,28 @@ function App() {
   const [xy, setXY] = React.useState({ x: 0, y: 0, ctx: null }) //another hooks for handling different datas between renders
   const [prevXY, setPrevXY] = React.useState({ x: 0, y: 0 })
   const [storedLines, setStroredLines] = React.useState([])
-  const [grid] = React.useState(Game(dim)) //In Game() we generate grid
+  const [grid, setGrid] = React.useState(Game(dim)) //In Game() we generate grid
   const [dragend, setDragend] = React.useState({ first_cell: '', last_cell: '', status: false })
 
   React.useEffect(() => {
     if (dragend.status === true) {
+      let result = null
       grid[1].forEach(element => {
-        if (element.first_cell === dragend.first_cell && element.last_cell === dragend.last_cell) 
-        console.log(grid[1].indexOf(element) + " : " + element.word)
+        if (element.first_cell === dragend.first_cell && element.last_cell === dragend.last_cell)
+          {
+            // console.log(grid[1].indexOf(element) + " : " + element.word)
+            result = grid[1].indexOf(element)
+            return
+          }
       });
+      if (result !== null) {
+        let temp_grid = grid
+        let temp_element = grid[1][result]
+        temp_element.status = true 
+        temp_grid[1][result] = temp_element
+        setGrid(temp_grid)
+        // console.log(grid[1])
+      }
       setDragend({ first_cell: '', last_cell: '', status: false })
     } //here is the function that check if uswer found the rigth word and print its position in solution array
   }, [grid, dragend, setDragend]);
@@ -73,13 +86,16 @@ function App() {
                 setDragend={setDragend} />
             })}
           </div>
-          <WordBook can_ref={canvas} words={grid[1]}/>
+          <div className='List'>
+            <h3 className='ListTitle'>List of words</h3>
+            <WordBook can_ref={canvas} words={grid[1]} />
+          </div>
         </div>
         <div className='Button-container'>
-            <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} />
-            <ResetButton />
-            <SettingsButton />
-          </div>
+          <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} />
+          <ResetButton />
+          <SettingsButton />
+        </div>
       </main>
     </div >
   );

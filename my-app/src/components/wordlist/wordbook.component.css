@@ -1,6 +1,4 @@
 .WordBook {
-    margin-left: calc(var(--cv) * 1px + 10px);
-    position: absolute;
     z-index: 1;
 }
 
