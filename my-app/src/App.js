@@ -36,13 +36,12 @@ function App() {
   const [dragend, setDragend] = React.useState({ first_cell: '', last_cell: '', status: false })
 
   React.useEffect(() => {
-    if (dragend.status === true) {
+    if (dragend.status === true) { //check if player end dragging
       let result = null
       grid[1].forEach(element => {
-        if (element.first_cell === dragend.first_cell && element.last_cell === dragend.last_cell)
+        if (element.first_cell === dragend.first_cell && element.last_cell === dragend.last_cell) //check if start and end letter are correponding to some word
           {
-            // console.log(grid[1].indexOf(element) + " : " + element.word)
-            result = grid[1].indexOf(element)
+            result = grid[1].indexOf(element) //the result is index of correct word in solution array
             return
           }
       });
@@ -51,14 +50,18 @@ function App() {
         let temp_element = grid[1][result]
         temp_element.status = true 
         temp_grid[1][result] = temp_element
-        setGrid(temp_grid)
-        // console.log(grid[1])
+        setGrid(temp_grid) //setting new grid with word set as found correct
+      }
+      if(dragend.first_cell === dragend.last_cell) {
+        let temp_storedLines = storedLines
+        temp_storedLines.pop()
+        setStroredLines(temp_storedLines)
       }
       setDragend({ first_cell: '', last_cell: '', status: false })
-    } //here is the function that check if uswer found the rigth word and print its position in solution array
+    } //here is the function that check if player found the rigth word and print its position in solution array
   }, [grid, dragend, setDragend]);
 
-  document.body.style = 'background: #FFF6A7;';
+  document.body.style = 'background: #FFF660;';
 
   return (
     <div id="container" >

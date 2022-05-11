@@ -8,6 +8,7 @@
   flex-direction: row;
   /* align-items: center; */
   justify-content: center;
+  color: #807C30;
 }
 
 .List {
@@ -30,7 +31,7 @@
 .Button-container {
   display: flex;
   flex-direction: row;
-  /* margin: auto; */
+  margin-top: 10px;
   position: relative;
   align-items: center;
   justify-content: center;
