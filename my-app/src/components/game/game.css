@@ -6,6 +6,7 @@
 }
 
 .grid-item {
+  /* border-left: 1px solid #4CAF50; */
   position:relative;
   background-color: transparent;
   border: 1px solid rgba(0, 0, 0, 0.8);

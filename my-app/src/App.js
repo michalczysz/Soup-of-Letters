@@ -26,14 +26,15 @@ function App() {
     on next render it will generate it again and change our orginal value
   */
 
-  const canvas = useRef(null) //this is React hook, to send Canvas pointer(?) to another function
+  const canvas = useRef(null) //this is React hook, to send Canvas reference/pointer(?) to another function
   const grid_ref = useRef(null)
 
   const [xy, setXY] = React.useState({ x: 0, y: 0, ctx: null }) //another hooks for handling different datas between renders
   const [prevXY, setPrevXY] = React.useState({ x: 0, y: 0 })
   const [storedLines, setStroredLines] = React.useState([])
   const [grid, setGrid] = React.useState(Game(dim)) //In Game() we generate grid
-  const [dragend, setDragend] = React.useState({ first_cell: '', last_cell: '', status: false })
+  const [dragend, setDragend] = React.useState([{ first_cell: '', last_cell: '', status: false }])
+  const [undoUpdate, setUndoUpdate] = React.useState(false)
 
   React.useEffect(() => {
     if (dragend.status === true) { //check if player end dragging
@@ -42,6 +43,9 @@ function App() {
         if (element.first_cell === dragend.first_cell && element.last_cell === dragend.last_cell) //check if start and end letter are correponding to some word
           {
             result = grid[1].indexOf(element) //the result is index of correct word in solution array
+            let temp_storedLines = storedLines
+            temp_storedLines[temp_storedLines.length - 1].word = grid[1][result].word
+            setStroredLines(temp_storedLines)
             return
           }
       });
@@ -50,7 +54,7 @@ function App() {
         let temp_element = grid[1][result]
         temp_element.status = true 
         temp_grid[1][result] = temp_element
-        setGrid(temp_grid) //setting new grid with word set as found correct
+        setGrid(temp_grid) //setting new grid with word set as found and correct
       }
       if(dragend.first_cell === dragend.last_cell) {
         let temp_storedLines = storedLines
@@ -59,15 +63,19 @@ function App() {
       }
       setDragend({ first_cell: '', last_cell: '', status: false })
     } //here is the function that check if player found the rigth word and print its position in solution array
-  }, [grid, dragend, setDragend]);
+  }, [grid, dragend, storedLines, setDragend, setStroredLines]);
 
-  document.body.style = 'background: #FFF660;';
+  document.body.style = 'background: #FFF6A7;';
 
   return (
     <div id="container" >
       <Header />
       <main className="main-content">
         <div id="game-components">
+          <div className='ScoreBoard'>
+          <h3 className='SideTitle'>Score</h3>
+          time: 0:00:00
+          </div>
           <div className="grid-container" ref={grid_ref}>
             <SelectingBox ref={canvas} />
             {grid[0].map(xd => {
@@ -90,12 +98,12 @@ function App() {
             })}
           </div>
           <div className='List'>
-            <h3 className='ListTitle'>List of words</h3>
-            <WordBook can_ref={canvas} words={grid[1]} />
+            <h3 className='SideTitle'>List of words</h3>
+            <WordBook  can_ref={canvas} words={grid[1]} undoUpdate={undoUpdate} setUndoUpdate={setUndoUpdate}/>
           </div>
         </div>
         <div className='Button-container'>
-          <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} />
+          <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} solutions={grid} setGrid={setGrid} setUndoUpdate={setUndoUpdate}/>
           <ResetButton />
           <SettingsButton />
         </div>

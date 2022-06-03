@@ -8,24 +8,29 @@
   flex-direction: row;
   /* align-items: center; */
   justify-content: center;
-  color: #807C30;
+  /* color: #807C30; */
 }
 
 .List {
   display: flex;
-  margin-left: calc(var(--cv) * 1px + 210px);
-  position: absolute;
+  margin-left: 10px;
+  /* position: absolute; */
   width: 200px;
   z-index: 1;
   flex-wrap: wrap;
   flex-direction: column;
 }
 
-.ListTitle{
+.SideTitle{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: auto;
+  margin: initial;
+}
+
+.ScoreBoard{
+  width: 200px;
+  margin-right: 10px;
 }
 
 .Button-container {

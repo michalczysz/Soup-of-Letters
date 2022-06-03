@@ -10,7 +10,7 @@ In the project directory, you can run:
 
 # TODO
 1. Setting button pop-up
-1.1 after click on "Setting button" we should get pop-up window where we can change:
+1.1. after click on "Setting button" we should get pop-up window where we can change:
     - difficult level (diemension of generated grid)
     - add new words
     - check scores (this might be another buttom)
