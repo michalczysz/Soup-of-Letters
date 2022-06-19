@@ -8,6 +8,7 @@ import UndoButton from './components/buttons/undo.component';
 import ResetButton from './components/buttons/reset.component';
 import SettingsButton from './components/buttons/settings.component';
 import WordBook from './components/wordlist/wordbook.component';
+import SettingsPopUP from './components/game/settings.component';
 
 function App() {
   /* 
@@ -35,6 +36,7 @@ function App() {
   const [grid, setGrid] = React.useState(Game(dim)) //In Game() we generate grid
   const [dragend, setDragend] = React.useState([{ first_cell: '', last_cell: '', status: false }])
   const [undoUpdate, setUndoUpdate] = React.useState(false)
+  const [settingsPop, setSettingsPop] = React.useState(false)
 
   React.useEffect(() => {
     if (dragend.status === true) { //check if player end dragging
@@ -105,7 +107,8 @@ function App() {
         <div className='Button-container'>
           <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} solutions={grid} setGrid={setGrid} setUndoUpdate={setUndoUpdate}/>
           <ResetButton />
-          <SettingsButton />
+          <SettingsButton pop_state={settingsPop} set_pop_state={setSettingsPop}/>
+          {settingsPop ? <SettingsPopUP pop_state={settingsPop} set_pop_state={setSettingsPop}/> : null}
         </div>
       </main>
     </div >

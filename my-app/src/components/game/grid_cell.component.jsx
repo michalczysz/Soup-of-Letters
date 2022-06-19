@@ -44,6 +44,7 @@ function GridCell({ index, letter, rand, dim, can_ref, grid_ref, xy, setXY, prev
     const handleDragStart = ev => {
         let ctx = can_ref.current.getContext("2d");
         ev.dataTransfer.setDragImage(new Image(), 0, 0); //trick to hide "ghost" of element while Dragging
+        // ev.target.style.cursor = "move";
         let _x = ev.pageX - can_ref.current.offsetLeft   //calculating current XY position on canvas
         let _y = ev.pageY - can_ref.current.offsetTop
 
