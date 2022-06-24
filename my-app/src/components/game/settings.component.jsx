@@ -1,18 +1,23 @@
 import React from 'react'
 
-
-
 function SettingsPopUP({ pop_state, set_pop_state }) {
-    const [level, setLevel] = React.useState(0);
+    const [level, setLevel] = React.useState(5);
+    const [words, setWords] = React.useState(JSON.parse(localStorage.getItem('wordbook')));
+
     const handleClick = () => {
-        let settings = JSON.parse(localStorage.getItem('settings'));
-        console.log(settings)
         set_pop_state(!pop_state)
+        window.location.reload()
     };
 
     const saveSettings = (e) => {
-        // localStorage.setItem('settings', JSON.stringify({level: e.target.value}));
-        console.log(level)
+        localStorage.setItem('level', JSON.stringify(level));
+        localStorage.setItem('wordbook', JSON.stringify(words));
+        set_pop_state(!pop_state)
+        window.location.reload()
+    }
+
+    const handleChange = (e) => { 
+        setWords(e.target.value)
     }
 
     return (
@@ -25,25 +30,22 @@ function SettingsPopUP({ pop_state, set_pop_state }) {
                     <h3>Settings</h3>
                     <label>
                         Wordbook: <br />
-                        <textarea />
+                        <textarea defaultValue={JSON.parse(localStorage.getItem('wordbook'))} onChange={handleChange} />
                     </label>
                     <br /><br />
                     <label>
                         Difficult level: <br />
                         <select id="levels" onChange={e => {
-                            // localStorage.setItem('settings', JSON.stringify({level: e.target.value}));
-                            // console.log(e.target.value)
                             setLevel(e.target.value);
                         }}>
-                            <option value="0">easy 5x5</option>
-                            <option value="1">medium 10x10</option>
-                            <option value="2">hard 15x15</option>
+                            <option value="5">easy 5x5</option>
+                            <option value="10">medium 10x10</option>
+                            <option value="15">hard 15x15</option>
                         </select>
 
                     </label>
                     <br /><br />
                     <button className="save_settings_button" type="button" onClick={saveSettings}>Save</button>
-                    {/* <button className="save_settings_button" type="button" onClick={saveSettings}>Save</button> */}
                 </form>
             </div>
         </div>

@@ -1,7 +1,21 @@
 import './game.css';
 
 let dim //some old stuff, need to clean it
-let wordbook = [["crt", 1, false], ["rat", 2, false], ["bar", 3, true]]
+
+function wordmix() {
+    if (localStorage.getItem('wordbook') == null) localStorage.setItem('wordbook', JSON.stringify("crt\nrat\nbar"));
+    let read_words = JSON.parse(localStorage.getItem('wordbook')).split('\n');
+    let output = []
+    read_words.forEach(word => {
+        let type = rand_num(3);
+        let cross = rand_num(2) == 1 ? true : false;
+        output.push([word, type, cross])
+    });
+    return output;
+}
+
+let wordbook = wordmix() || [["crt", 1, false], ["rat", 2, false], ["bar", 3, true]]
+
 const alphabet = 'abcdefghijklmnoprstwyz'
 
 let Array2D = (r, c) => [...Array(r)].map(x => Array(c).fill(0));
@@ -157,7 +171,7 @@ function word_put(grid) {
         let free_space_rand = free_space.length === 1 ? 0 : rand_num(free_space.length - 1)
 
         if (free_space.length === 0 || free_space[free_space_rand] === undefined) {
-            console.log("No free space")
+            // console.log("No free space")
             return
         }
 
@@ -165,7 +179,7 @@ function word_put(grid) {
 
         let solution = []
         for (let index = element[0].length - 1; index >= 0; index--) {
-            if(index === element[0].length - 1 || index === 0) solution.push([position[1]+position[0]*dim])
+            if (index === element[0].length - 1 || index === 0) solution.push([position[1] + position[0] * dim])
             let letter = (element[0])[index]
             grid[position[0]][position[1]] = letter
 
@@ -181,12 +195,13 @@ function word_put(grid) {
                     break
             }
         }
-        solutions.push({first_cell: solution[1][0], last_cell: solution[0][0], word: element[0], status: false})
+        solutions.push({ first_cell: solution[1][0], last_cell: solution[0][0], word: element[0], status: false })
     });
     return [grid, solutions]
 }
 
 function Game(_dim) {
+    // console.log(typeof(_dim))
     dim = _dim
     let gc = Grid_create(dim)
     document.documentElement.style.setProperty('--grid', gc[1])

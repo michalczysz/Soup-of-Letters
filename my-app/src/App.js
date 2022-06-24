@@ -9,13 +9,21 @@ import ResetButton from './components/buttons/reset.component';
 import SettingsButton from './components/buttons/settings.component';
 import WordBook from './components/wordlist/wordbook.component';
 import SettingsPopUP from './components/game/settings.component';
+import TimerUP from './components/timer/timer.component';
+import ScoreButton from './components/buttons/scoreboard.component';
+import ScoreboardPopUP from './components/game/scoreboard.component';
+import Completed from './components/game/completed.component';
+
 
 function App() {
   /* 
   dim is temporary variable with diemension of letter grid
   it tells the rest of program to make 5x5 grid
   */
-  let dim = 5
+  let level = JSON.parse(localStorage.getItem('level')) || 5;
+  let dim = Number(level)
+
+  // console.log(JSON.parse(localStorage.getItem('scores')))
 
   /* Canvas is like area on which we can draw different shapes. 
   In this project we use it to draw line for selected letters
@@ -37,28 +45,33 @@ function App() {
   const [dragend, setDragend] = React.useState([{ first_cell: '', last_cell: '', status: false }])
   const [undoUpdate, setUndoUpdate] = React.useState(false)
   const [settingsPop, setSettingsPop] = React.useState(false)
+  const [scorePop, setScorePop] = React.useState(false)
+  const [secTimer, setSecTimer] = React.useState(0)
+  // const [runTimer, setRunTimer] = React.useState(true)
+
+  const hoursMinSecs = { hours: 0, minutes: 0, seconds: 0 }
 
   React.useEffect(() => {
     if (dragend.status === true) { //check if player end dragging
       let result = null
       grid[1].forEach(element => {
         if (element.first_cell === dragend.first_cell && element.last_cell === dragend.last_cell) //check if start and end letter are correponding to some word
-          {
-            result = grid[1].indexOf(element) //the result is index of correct word in solution array
-            let temp_storedLines = storedLines
-            temp_storedLines[temp_storedLines.length - 1].word = grid[1][result].word
-            setStroredLines(temp_storedLines)
-            return
-          }
+        {
+          result = grid[1].indexOf(element) //the result is index of correct word in solution array
+          let temp_storedLines = storedLines
+          temp_storedLines[temp_storedLines.length - 1].word = grid[1][result].word
+          setStroredLines(temp_storedLines)
+          return
+        }
       });
       if (result !== null) {
         let temp_grid = grid
         let temp_element = grid[1][result]
-        temp_element.status = true 
+        temp_element.status = true
         temp_grid[1][result] = temp_element
         setGrid(temp_grid) //setting new grid with word set as found and correct
       }
-      if(dragend.first_cell === dragend.last_cell) {
+      if (dragend.first_cell === dragend.last_cell) {
         let temp_storedLines = storedLines
         temp_storedLines.pop()
         setStroredLines(temp_storedLines)
@@ -75,8 +88,9 @@ function App() {
       <main className="main-content">
         <div id="game-components">
           <div className='ScoreBoard'>
-          <h3 className='SideTitle'>Score</h3>
-          time: 0:00:00
+            <h3 className='SideTitle'>Time</h3>
+            <TimerUP secTimer={secTimer} setSecTimer={setSecTimer} hoursMinSecs={hoursMinSecs} words={grid[1]} />
+            <Completed words={grid[1]} secTimer={secTimer}/>
           </div>
           <div className="grid-container" ref={grid_ref}>
             <SelectingBox ref={canvas} />
@@ -101,14 +115,16 @@ function App() {
           </div>
           <div className='List'>
             <h3 className='SideTitle'>List of words</h3>
-            <WordBook  can_ref={canvas} words={grid[1]} undoUpdate={undoUpdate} setUndoUpdate={setUndoUpdate}/>
+            <WordBook words={grid[1]} undoUpdate={undoUpdate} setUndoUpdate={setUndoUpdate}/>
           </div>
         </div>
         <div className='Button-container'>
-          <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} solutions={grid} setGrid={setGrid} setUndoUpdate={setUndoUpdate}/>
+          <UndoButton can_ref={canvas} xy={xy} storedLines={storedLines} setStroredLines={setStroredLines} solutions={grid} setGrid={setGrid} setUndoUpdate={setUndoUpdate} />
           <ResetButton />
-          <SettingsButton pop_state={settingsPop} set_pop_state={setSettingsPop}/>
-          {settingsPop ? <SettingsPopUP pop_state={settingsPop} set_pop_state={setSettingsPop}/> : null}
+          <SettingsButton pop_state={settingsPop} set_pop_state={setSettingsPop} />
+          <ScoreButton pop_state={scorePop} set_pop_state={setScorePop} />
+          {settingsPop ? <SettingsPopUP pop_state={settingsPop} set_pop_state={setSettingsPop} /> : null}
+          {scorePop ? <ScoreboardPopUP pop_state={scorePop} set_pop_state={setScorePop} /> : null}
         </div>
       </main>
     </div >

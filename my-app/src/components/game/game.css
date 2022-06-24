@@ -19,3 +19,13 @@
   user-select: none;
   z-index: 15;
 }
+
+.Scores{
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+}
+
+.ScoresContainer{
+  display: grid;
+  justify-content: center;
+}
