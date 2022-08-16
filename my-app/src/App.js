@@ -23,8 +23,6 @@ function App() {
   let level = JSON.parse(localStorage.getItem('level')) || 5;
   let dim = Number(level)
 
-  // console.log(JSON.parse(localStorage.getItem('scores')))
-
   /* Canvas is like area on which we can draw different shapes. 
   In this project we use it to draw line for selected letters
 
@@ -47,7 +45,6 @@ function App() {
   const [settingsPop, setSettingsPop] = React.useState(false)
   const [scorePop, setScorePop] = React.useState(false)
   const [secTimer, setSecTimer] = React.useState(0)
-  // const [runTimer, setRunTimer] = React.useState(true)
 
   const hoursMinSecs = { hours: 0, minutes: 0, seconds: 0 }
 
@@ -94,23 +91,13 @@ function App() {
           </div>
           <div className="grid-container" ref={grid_ref}>
             <SelectingBox ref={canvas} />
-            {grid[0].map(xd => {
+            {grid[0].map(cell => {
               return <GridCell
-                key={xd[0]}
-                index={xd[0]}
-                letter={xd[1]}
-                rand={xd[2]}
-                dim={dim}
-                can_ref={canvas}
-                grid_ref={grid_ref}
-                xy={xy}
-                setXY={setXY}
-                prevXY={prevXY}
-                setPrevXY={setPrevXY}
-                storedLines={storedLines}
-                setStroredLines={setStroredLines}
-                dragend={dragend}
-                setDragend={setDragend} />
+                key={cell[0]} index={cell[0]} letter={cell[1]} rand={cell[2]}
+                dim={dim} can_ref={canvas} grid_ref={grid_ref}
+                xy={xy} setXY={setXY} prevXY={prevXY} setPrevXY={setPrevXY}
+                storedLines={storedLines} setStroredLines={setStroredLines}
+                dragend={dragend} setDragend={setDragend} />
             })}
           </div>
           <div className='List'>
