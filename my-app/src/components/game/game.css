@@ -3,13 +3,20 @@
   display: grid;
   grid-template-columns: var(--grid);
   z-index: 15;
+  background-color:rgba(151, 151, 151, 0.5);
+  border-radius:10px;
+}
+
+.modal_content{
+  /* background-color:rgba(58, 58, 58, 0.5); */
+  border-radius:10px;
 }
 
 .grid-item {
   /* border-left: 1px solid #4CAF50; */
   position:relative;
   background-color: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  /* border: 1px solid rgba(0, 0, 0, 0.8); */
   padding: 10px;
   font-size: 20px;
   text-align: center;

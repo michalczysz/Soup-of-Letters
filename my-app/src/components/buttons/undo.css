@@ -1,13 +1,10 @@
 .undo_button {
-  background-color: #4CAF50; /* Green */
+  background-color:rgba(151, 151, 151, 0.5);
+  border-radius: 5px;
   border: none;
-  color: white;
   padding: 15px 15px;
-  text-align: center;
   text-decoration: none;
-  display: inline-block;
   width: 100px;
-  font-size: 16px;
+  font-size: 13px;
   margin: 5px;
-  /* margin-top: 10px; */
 }

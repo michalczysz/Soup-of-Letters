@@ -11,6 +11,21 @@
   /* color: #807C30; */
 }
 
+body {
+  margin: 0;
+  padding: 0%;
+  overflow-y: hidden;
+}
+
+.container {
+  background-image:url('https://assets-global.website-files.com/6009ec8cda7f305645c9d91b/620bd6d655f2044afa28bff4_glassmorphism-p-1600.jpeg');
+  height:100vh;
+  width:100vw;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
 .List {
   display: flex;
   margin-left: 10px;
@@ -19,18 +34,24 @@
   z-index: 1;
   flex-wrap: wrap;
   flex-direction: column;
+  background-color:rgba(151, 151, 151, 0.5);
+  border-radius:10px;
+  padding-left: 10px;
 }
 
-.SideTitle{
+.SideTitle {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: initial;
 }
 
-.ScoreBoard{
+.ScoreBoard {
   width: 200px;
   margin-right: 10px;
+  background-color:rgba(151, 151, 151, 0.5);
+  border-radius:10px;
+  padding-left: 10px;
 }
 
 .Button-container {

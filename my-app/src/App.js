@@ -77,10 +77,10 @@ function App() {
     } //here is the function that check if player found the rigth word and print its position in solution array
   }, [grid, dragend, storedLines, setDragend, setStroredLines]);
 
-  document.body.style = 'background: #FFF6A7;';
+  // document.body.style = 'background: white';
 
   return (
-    <div id="container" >
+    <div className="container" >
       <Header />
       <main className="main-content">
         <div id="game-components">

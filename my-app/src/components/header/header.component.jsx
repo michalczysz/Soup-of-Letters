@@ -3,7 +3,7 @@ import './header.component.css'
 function Header() {
     return(
         < header>
-        < h1 className="title">Soup of Letters</h1>
+        < div className="title">Soup of Letters</div>
         </header>)
 }
 
