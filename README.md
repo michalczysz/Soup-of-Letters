@@ -11,7 +11,7 @@ One of requirements was to use plain Javascripts and React (no extra librariers)
 
 I belive that most important thing of JavaScript and React i learn was React hooks (useEffect(), setState etc...).
 
-![App Screenshot](https://publicmichalczysz.s3.eu-central-1.amazonaws.com/soup-of-letters.png)
+![App Screenshot](https://publicmichalczysz.s3.eu-central-1.amazonaws.com/soup-of-letters2.png)
 ## Installation
 You can start locally this project with those commands:
 
